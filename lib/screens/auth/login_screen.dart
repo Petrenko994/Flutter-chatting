@@ -1,3 +1,4 @@
+import 'package:ainaglam/screens/home/workspace_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -120,15 +121,15 @@ class _AuthScreenState extends State<LoginScreen> {
                           onPressed: authProvider.isLoading
                               ? null
                               : () async {
-                                  // await authProvider.loginwithGoogle(context);
-                                  // if (authProvider.status == true) {
-                                  //   Navigator.of(context).push(
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => WorkspaceScreen(
-                                  //           tokenString: authProvider.token!),
-                                  //     ),
-                                  //   );
-                                  // }
+                                  await authProvider.loginwithGoogle(context);
+                                  if (authProvider.status == true) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => WorkspaceScreen(
+                                            tokenString: authProvider.token!),
+                                      ),
+                                    );
+                                  }
                                 },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

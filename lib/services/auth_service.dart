@@ -1,53 +1,53 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final String _baseUrl = dotenv.env['API_BASE_URL'] ?? '';
-  // final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   // final GoogleSignIn _googleSignIn = GoogleSignIn(
   //   scopes: ['email'],
   // );
 
-  // Future<Map<String, dynamic>> loginWithGoogle() async {
-  //   try {
-  //     if (await _googleSignIn.isSignedIn()) {
-  //       await _googleSignIn
-  //           .signOut(); // Sign out before attempting to sign in again
-  //     }
+  Future<Map<String, dynamic>> loginWithGoogle() async {
+    try {
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn
+            .signOut(); // Sign out before attempting to sign in again
+      }
 
-  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-  //     if (googleUser == null) {
-  //       // User canceled the sign-in
-  //       return {};
-  //     }
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // User canceled the sign-in
+        return {};
+      }
 
-  //     final GoogleSignInAuthentication googleAuth =
-  //         await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-  //     // Send the ID token to your backend server
-  //     final response = await http.post(
-  //         Uri.parse('$_baseUrl/auth/google/callback'),
-  //         headers: {'Content-Type': 'application/json'},
-  //         body: jsonEncode({'token': googleAuth.idToken}));
-  //     print(response.statusCode);
-  //     if (response.statusCode == 200) {
-  //       final data = jsonDecode(response.body);
-  //       String token = data['token'];
-  //       return {'success': true, 'message': 'Success'};
-  //       // Redirect or erform any actions after login
-  //     } else {
-  //       return {
-  //         'success': false,
-  //         'message': 'Network error: ${response.statusCode}'
-  //       };
-  //     }
-  //   } catch (error) {
-  //     return {'success': false, 'message': 'Error:  $error.'};
-  //   }
-  // }
+      // Send the ID token to your backend server
+      final response = await http.post(
+          Uri.parse('$_baseUrl/auth/google/callback'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'token': googleAuth.idToken}));
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        String token = data['token'];
+        return {'success': true, 'message': 'Success'};
+        // Redirect or erform any actions after login
+      } else {
+        return {
+          'success': false,
+          'message': 'Network error: ${response.statusCode}'
+        };
+      }
+    } catch (error) {
+      return {'success': false, 'message': 'Error:  $error.'};
+    }
+  }
 
   /// Sends an SMS code to the user's email.
   Future<Map<String, dynamic>> sendSmsCode(String email) async {
