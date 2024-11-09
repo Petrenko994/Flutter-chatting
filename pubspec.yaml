@@ -61,7 +61,7 @@ flutter:
   fonts:
     - family: NotoColorEmoji
       fonts:
-        - asset: assets/fonts/NotoColorEmoji-Regular.ttf
+        # - asset: assets/fonts/NotoColorEmoji-Regular.ttf
 
   assets:
     - assets/images/splash.png
